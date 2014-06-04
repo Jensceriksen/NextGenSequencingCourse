@@ -1,0 +1,52 @@
+Data Basics
+
+This is a small exercise where we will try to identify the quality encoding of some reads.
+
+Read quality encoding table
+
+  SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....................................................
+  ..........................XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX......................
+  ...............................IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII......................
+  .................................JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ......................
+  LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL....................................................
+  !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+  |                         |    |        |                              |                     |
+ 33                        59   64       73                            104                   126
+
+ S - Sanger        Phred+33,  raw reads typically (0, 40)
+ X - Solexa        Solexa+64, raw reads typically (-5, 40)
+ I - Illumina 1.3+ Phred+64,  raw reads typically (0, 40)
+ J - Illumina 1.5+ Phred+64,  raw reads typically (3, 40)
+    with 0=unused, 1=unused, 2=Read Segment Quality Control Indicator (bold) 
+    (Note: See discussion above).
+ L - Illumina 1.8+ Phred+33,  raw reads typically (0, 41)
+Identify quality encoding
+
+Use the table above (the table is from the Fastq wikipedia page) to identify the quality encoding of these three reads. You only have to differentiate between Sanger (S), Solexa (X) and Illumina (I, J).
+
+@HWUSI-EAS656_0037_FC:3:1:16637:1035#NNNNNN/1
+CATATTTTGTGGCTCATCCCAAGGGAGAGGTTTTTCTATACTCAGGAGAAGTTACTCACGATAAAGAGAA
++
+41?8FFF@@DAGGGEDF@FGECGGGBG@GE.EEBGBDADBBEEBEEC>ACE>CD?EEC?CAB>EB:BC##
+
+@FC42RW0AAXX:3:1:2:1038#NNNNNN/1
+GTGTTCTCTGCGACCCGTAATTCAGCTTTTTCCGGTTGCTTTGCCCTTTGCACCTTATCCTGCACCATCTCGC
++
+a]baaaa`aaaV`a_aa^Y^`_`_aa___`a]U__\\`][Z_^^R]YWWW[SWZ[QFY[VVWZWBBBBBBBBB
+
+@I330_1_FC30JM6AAXX:4:1:13:1602/1
+ATGTAGAAGTGTTTGATACGGCGATTTCAAACATTGCAGGGCTT
++I330_1_FC30JM6AAXX:4:1:13:1602/1
+hhhhhhhhhhhhhhhhhhYh^hhhH[I>B^AABGDK;KBP??FN
+
+Q1. What encoding is read 1?
+A1. Since the quality score contains a "#", it must be Sanger encoding.
+
+Q2. What encoding is read 2?
+A2. Since the quality score lies between 64 and 104, we cannot know if it is Solexa or Illumina encoding.
+
+Q3. What encoding is read 3?
+A3. Since the quality scores lies between 59 and 104, it must be Solexa encoding.
+
+Q4. Can you think of situations were it is not possible to differentiate between Solexa and Illumina quality encoding?
+A4. If the quality scores lies between 64 and 104, it is not possible to differentiate!
